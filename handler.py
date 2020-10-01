@@ -6,7 +6,6 @@ import requests
 import boto3
 import os
 import logging
-from base64 import b64decode
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
