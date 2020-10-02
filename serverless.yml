@@ -37,6 +37,6 @@ functions:
     timeout: 900
     events:
       - schedule:
-        name: 'aws-billing-notification-to-slack'
-        rate: cron(0 0 * * ? *)
-        enabled: true
+          name: 'aws-billing-notification-to-slack'
+          rate: cron(0 0 ? * * *)
+          enabled: true
