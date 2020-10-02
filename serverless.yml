@@ -21,15 +21,15 @@ provider:
         - "kms:Decrypt"
       Resource: "*"
   environment:
-    TZ: 'Asia/Tokyo'
+    TZ: "Asia/Tokyo"
     SLACK_AWS_BILLING_NOTIFICATION_WEB_HOOK_URL: ${ssm:/slack_aws_billing_notification/web_hook_url}
     SLACK_AWS_BILLING_NOTIFICATION_CHANNEL_NAME: ${ssm:/slack_aws_billing_notification/channel_name}
 
 package:
   exclude:
-    - './serverless/**'
-    - './slsvenv/**'
-    - './node_modules/**'
+    - "./serverless/**"
+    - "./slsvenv/**"
+    - "./node_modules/**"
 
 functions:
   lambda_handler:
@@ -37,6 +37,6 @@ functions:
     timeout: 900
     events:
       - schedule:
-          name: 'aws-billing-notification-to-slack'
+          name: "aws-billing-notification-to-slack"
           rate: cron(0 0 ? * * *)
           enabled: true
