@@ -15,6 +15,8 @@ logger.setLevel(logging.INFO)
 SLACK_POST_URL = os.environ[
     'SLACK_AWS_BILLING_NOTIFICATION_WEB_HOOK_URL']
 SLACK_CHANNEL = os.environ['SLACK_AWS_BILLING_NOTIFICATION_CHANNEL_NAME']
+USERNAME = 'AWSどるちぇっかー'
+ICON = ':quoca:'
 
 response = boto3.client('cloudwatch', region_name='us-east-1')
 
@@ -43,20 +45,25 @@ def build_slack_message():
         '%Y年%m月%d日')
     if float(cost) >= 10.0:
         # red
-        color = "#ff0000"
+        color = '#ff0000'
     elif float(cost) > 0.0:
         # yellow
-        color = "warning"
+        color = 'warning'
     else:
         # green
-        color = "good"
+        color = 'good'
 
-    text = "%sまでのAWSの料金は、$%sです。" % (date, cost)
+    text = '%sまでのAWSの料金は、$%sですゆうたいるい' % (date, cost)
 
-    atachements = {"text": text, "color": color}
+    atachements = {
+        'text': text,
+        'color': color
+    }
     slack_message = {
+        'username': USERNAME,
+        'icon_emoji': ICON,
         'channel': SLACK_CHANNEL,
-        "attachments": [atachements],
+        'attachments': [atachements],
     }
     return slack_message
 
@@ -66,6 +73,6 @@ def lambda_handler(event, context):
     # Post to Slack
     try:
         req = requests.post(SLACK_POST_URL, data=json.dumps(slack_message))
-        logger.info("Message posted to %s", slack_message['channel'])
+        logger.info('Message posted to %s', slack_message['channel'])
     except requests.exceptions.RequestException as e:
-        logger.error("Request failed: %s", e)
+        logger.error('Request failed: %s', e)
