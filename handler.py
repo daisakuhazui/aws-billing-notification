@@ -31,7 +31,8 @@ def get_metric_statistics():
                 'Value': 'USD'
             }
         ],
-        StartTime=datetime.datetime.today().replace(day=1),
+        StartTime=datetime.datetime.today().replace(
+            hour=0, minute=0, second=0, microsecond=0),
         EndTime=datetime.datetime.today(),
         Period=86400,
         Statistics=['Maximum'])
