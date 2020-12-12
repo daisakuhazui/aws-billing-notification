@@ -31,8 +31,7 @@ def get_metric_statistics():
                 'Value': 'USD'
             }
         ],
-        StartTime=datetime.datetime.today().replace(
-            hour=0, minute=0, second=0, microsecond=0),
+        StartTime=datetime.datetime.today() - datetime.timedelta(days=1),
         EndTime=datetime.datetime.today(),
         Period=86400,
         Statistics=['Maximum'])
@@ -42,9 +41,12 @@ def get_metric_statistics():
 def build_slack_message():
     metric_statistics = get_metric_statistics()
     print(metric_statistics)
-    cost = metric_statistics['Datapoints'][0]['Maximum']
-    date = metric_statistics['Datapoints'][0]['Timestamp'].strftime(
-        '%Y年%m月%d日')
+    cost = 0.0
+    if metric_statistics['Datapoints']:
+        cost = metric_statistics['Datapoints'][0]['Maximum']
+
+    date = datetime.datetime.today().strftime('%Y年%m月%d日')
+
     if float(cost) >= 10.0:
         # red
         color = '#ff0000'
