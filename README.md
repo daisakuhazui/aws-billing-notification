@@ -8,7 +8,7 @@ Lambda function that notifies Slack of AWS usage charges at JST 09:00.
 
 ```
 $ python -m venv slsvenv
-$ make activate
+$ source ./slsvenv/bin/activate
 ```
 
 ### 2. pip install
