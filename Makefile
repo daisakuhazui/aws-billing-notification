@@ -1,9 +1,3 @@
-venv:
-	python -m venv slsvenv
-
-activate:
-	source ./slsvenv/bin/activate
-
 deploy:
 	sls deploy --aws-profile $(PROFILE)
 
