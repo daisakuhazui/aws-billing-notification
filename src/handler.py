@@ -21,6 +21,7 @@ response = boto3.client("cloudwatch", region_name="us-east-1")
 
 
 def get_metric_statistics():
+    """CloudWatchからメトリクスを取得する"""
     metric_statistics = response.get_metric_statistics(
         Namespace="AWS/Billing",
         MetricName="EstimatedCharges",
@@ -34,6 +35,7 @@ def get_metric_statistics():
 
 
 def build_slack_message():
+    """Slackへの通知メッセージを作成する"""
     metric_statistics = get_metric_statistics()
     print(metric_statistics)
     cost = 0.0
@@ -65,6 +67,7 @@ def build_slack_message():
 
 
 def lambda_handler(event, context):
+    """Lambda Handler"""
     slack_message = build_slack_message()
     # Post to Slack
     try:
