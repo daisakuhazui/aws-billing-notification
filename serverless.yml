@@ -33,7 +33,7 @@ package:
 
 functions:
   lambda_handler:
-    handler: handler.lambda_handler
+    handler: src/handler.lambda_handler
     timeout: 900
     events:
       - schedule:
