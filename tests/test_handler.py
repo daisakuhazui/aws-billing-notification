@@ -2,6 +2,7 @@
 import os
 import unittest
 from unittest.mock import patch
+
 from moto import mock_cloudwatch
 
 from src import handler
