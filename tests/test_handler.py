@@ -1,5 +1,4 @@
 # encoding: utf-8
-import os
 import unittest
 from unittest.mock import patch
 
