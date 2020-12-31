@@ -3,21 +3,15 @@
 import datetime
 import json
 import logging
-import os
 
 import boto3
 import requests
 
+from config import variables
+
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-# Slack Notification Setting
-# TODO: SSM の SecureString を扱えるようにしたい
-# TODO: 設定値を別ファイルに切り出して、テストコードからも参照できるようにしたい
-SLACK_POST_URL = os.environ["SLACK_AWS_BILLING_NOTIFICATION_WEB_HOOK_URL"]
-SLACK_CHANNEL = os.environ["SLACK_AWS_BILLING_NOTIFICATION_CHANNEL_NAME"]
-USERNAME = "AWSどるちぇっかー"
-ICON = ":quoca:"
 
 
 def get_metric_statistics():
@@ -60,9 +54,9 @@ def build_slack_message(metric_statistics):
 
     atachements = {"text": text, "color": color}
     slack_message = {
-        "username": USERNAME,
-        "icon_emoji": ICON,
-        "channel": SLACK_CHANNEL,
+        "username": variables.USERNAME,
+        "icon_emoji": variables.ICON,
+        "channel": variables.SLACK_CHANNEL,
         "attachments": [atachements],
     }
     return slack_message
@@ -77,9 +71,9 @@ def lambda_handler(event, context):
     slack_message = build_slack_message(metric_statistics)
 
     # Post to Slack
-    slack_post_url = SLACK_POST_URL
+    slack_post_url = variables.SLACK_POST_URL
     try:
-        req = requests.post(slack_post_url, data=json.dumps(slack_message))
+        requests.post(slack_post_url, data=json.dumps(slack_message))
         logger.info("Message posted to %s", slack_message["channel"])
     except requests.exceptions.RequestException as e:
         logger.error("Request failed: %s", e)
