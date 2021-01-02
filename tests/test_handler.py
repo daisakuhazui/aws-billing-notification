@@ -14,6 +14,7 @@ class HandlerTest(unittest.TestCase):
         print("Starting Tests...")
 
     # TODO: warningを修正する
+    # TODO: テストが実行できない不具合を修正する
     @mock_cloudwatch
     def test_get_metric_statistics(self):
         statistics = handler.get_metric_statistics()
