@@ -31,7 +31,7 @@ class HandlerTest(unittest.TestCase):
         self.assertEqual("#ff0000", slack_message["attachments"][0]["color"])
 
     def test_build_slack_message_yellow(self):
-        metric_statistics = {"Datapoints": [{"Maximum": 9.9}]}
+        metric_statistics = {"Datapoints": [{"Maximum": 5.0}]}
         slack_message = handler.build_slack_message(metric_statistics)
 
         self.assertEqual("AWSどるちぇっかー", slack_message["username"])
