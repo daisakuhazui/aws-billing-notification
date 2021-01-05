@@ -15,7 +15,11 @@ logger.setLevel(logging.INFO)
 
 
 def get_metric_statistics():
-    """CloudWatchからメトリクスを取得する"""
+    """
+    CloudWatchからメトリクスを取得
+
+    検索期間は月始めの1日9:00から、Lambda関数実行時の9:00まで
+    """
     cloudwatch = boto3.client("cloudwatch", region_name="us-east-1")
     metric_statistics = cloudwatch.get_metric_statistics(
         Namespace="AWS/Billing",
@@ -33,7 +37,14 @@ def get_metric_statistics():
 
 
 def build_slack_message(metric_statistics):
-    """Slackへの通知メッセージを作成する"""
+    """
+    Slackへの通知メッセージを作成
+
+    メッセージの色分け条件
+        10.0$以上: 赤
+        5.0$以上: 黄
+        0.0$以上: 緑
+    """
     cost = 0.0
     if metric_statistics["Datapoints"]:
         cost = metric_statistics["Datapoints"][0]["Maximum"]
@@ -63,7 +74,11 @@ def build_slack_message(metric_statistics):
 
 
 def lambda_handler(event, context):
-    """Lambda Handler"""
+    """
+    Lambda Handler
+    handler.py内で定義された関数を呼び出し、
+    AWS利用料をSlack通知する。
+    """
     # Get metric_statistics from Amazon CloudWatch
     metric_statistics = get_metric_statistics()
 
