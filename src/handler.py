@@ -76,8 +76,8 @@ def build_slack_message(metric_statistics):
 def lambda_handler(event, context):
     """
     Lambda Handler
-    handler.py内で定義された関数を呼び出し、
-    AWS利用料をSlack通知する。
+
+    handler.py内で定義された関数を呼び出し、AWS利用料金をSlack通知する。
     """
     # Get metric_statistics from Amazon CloudWatch
     metric_statistics = get_metric_statistics()
