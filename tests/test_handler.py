@@ -5,6 +5,24 @@ from unittest.mock import patch
 from moto import mock_cloudwatch
 
 from src import handler
+import pytest
+import os
+import boto3
+
+
+@pytest.fixture(scope="function")
+def aws_credentials():
+    """Mocked AWS Credentials for moto."""
+    os.environ["AWS_ACCESS_KEY_ID"] = "testing"
+    os.environ["AWS_SECRET_ACCESS_KEY"] = "testing"
+    os.environ["AWS_SECURITY_TOKEN"] = "testing"
+    os.environ["AWS_SESSION_TOKEN"] = "testing"
+
+
+@pytest.fixture(scope="function")
+def cloudwatch(aws_credentials):
+    with mock_cloudwatch():
+        yield boto3.client("cloudwatch", region_name="ap-northeast-1")
 
 
 class HandlerTest(unittest.TestCase):
@@ -15,7 +33,6 @@ class HandlerTest(unittest.TestCase):
 
     # TODO: warningを修正する
     # TODO: テストが実行できない不具合を修正する
-    @mock_cloudwatch
     def test_get_metric_statistics(self):
         statistics = handler.get_metric_statistics()
 
@@ -48,9 +65,8 @@ class HandlerTest(unittest.TestCase):
         self.assertEqual("dummy_channel", slack_message["channel"])
         self.assertEqual("good", slack_message["attachments"][0]["color"])
 
-    @mock_cloudwatch
     @patch("requests.post")
-    def test_lambda_handler(self, mock_post):
+    def test_lambda_handler(self, mock_post, cloudwatch):
         event = "dummy_event"
         context = "dummy_context"
 
