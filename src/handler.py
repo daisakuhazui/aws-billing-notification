@@ -54,7 +54,7 @@ def build_slack_message(metric_statistics):
     if float(cost) >= 10.0:
         # red
         color = "#ff0000"
-    elif float(cost) > 5.0:
+    elif float(cost) >= 5.0:
         # yellow
         color = "warning"
     else:
