@@ -1,5 +1,7 @@
 # aws-billing-notification
 
+## About
+
 Lambda function that notifies Slack of AWS usage charges at JST 09:00.
 
 ## Directories
